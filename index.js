@@ -2,7 +2,7 @@ const express = require("express");
 const http = require("http");
 const { WebSocketServer } = require("ws");
 const QRCode = require("qrcode");
-const { default: makeWASocket, useMultiFileAuthState, DisconnectReason } = require("baileys");
+const { default: makeWASocket, useMultiFileAuthState, DisconnectReason } = require("@whiskeysockets/baileys");
 const P = require("pino");
 
 const BOT_NAME = "Psycho-Bot";
