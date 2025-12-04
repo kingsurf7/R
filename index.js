@@ -17,8 +17,7 @@ let startTime = new Date();
 async function startBot() {
     const { state, saveCreds } = await useMultiFileAuthState("auth_info");
     sock = makeWASocket({
-        auth: state,
-        printQRInTerminal: true,
+        auth: state, 
         logger: P({ level: "silent" })
     });
 
@@ -42,7 +41,10 @@ async function startBot() {
         if (connection === "close") {
             const shouldReconnect = (lastDisconnect.error?.output?.statusCode !== DisconnectReason.loggedOut);
             console.log("⚠️ Déconnexion, reconnexion :", shouldReconnect);
-            if (shouldReconnect) startBot();
+            if (shouldReconnect) {
+    console.log("🔄 Reconnexion dans 3 secondes...");
+    setTimeout(startBot, 3000);
+            }
         }
     });
 
