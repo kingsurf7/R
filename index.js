@@ -2,7 +2,7 @@ const express = require("express");
 const http = require("http");
 const { WebSocketServer } = require("ws");
 const QRCode = require("qrcode");
-const { default: makeWASocket, useMultiFileAuthState, DisconnectReason } = require("baileys");
+const { default: makeWASocket, useMultiFileAuthState, DisconnectReason } = require("@whiskeysockets/baileys");
 const P = require("pino");
 
 const BOT_NAME = "Psycho-Bot";
@@ -18,7 +18,9 @@ async function startBot() {
     const { state, saveCreds } = await useMultiFileAuthState("auth_info");
     sock = makeWASocket({
         auth: state, 
-        logger: P({ level: "silent" })
+        logger: P({ level: "silent" }), 
+        printQRInTerminal: true, 
+        browser: Browsers.ubuntu('Chrome')
     });
 
     sock.ev.on("connection.update", async (update) => {
@@ -42,8 +44,7 @@ async function startBot() {
             const shouldReconnect = (lastDisconnect.error?.output?.statusCode !== DisconnectReason.loggedOut);
             console.log("⚠️ Déconnexion, reconnexion :", shouldReconnect);
             if (shouldReconnect) {
-    console.log("🔄 Reconnexion dans 3 secondes...");
-    setTimeout(startBot, 3000);
+              setTimeout(startBot, 3000);
             }
         }
     });
