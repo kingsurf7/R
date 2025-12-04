@@ -2,7 +2,7 @@ const express = require("express");
 const http = require("http");
 const { WebSocketServer } = require("ws");
 const QRCode = require("qrcode");
-const { default: makeWASocket, Browsers, useMultiFileAuthState, DisconnectReason } = require("@whiskeysockets/baileys");
+const { default: makeWASocket, useMultiFileAuthState, DisconnectReason } = require("@whiskeysockets/baileys");
 const P = require("pino");
 
 const BOT_NAME = "Psycho-Bot";
@@ -19,8 +19,7 @@ async function startBot() {
     sock = makeWASocket({
         auth: state, 
         logger: P({ level: "silent" }), 
-        printQRInTerminal: true, 
-        browser: Browsers.ubuntu('Chrome')
+        markOnlineOnConnect: false 
     });
 
     sock.ev.on("connection.update", async (update) => {
