@@ -40,12 +40,19 @@ async function startBot() {
         }
 
         if (connection === "close") {
-            const shouldReconnect = (lastDisconnect.error?.output?.statusCode !== DisconnectReason.loggedOut);
-            console.log("⚠️ Déconnexion, reconnexion :", shouldReconnect);
-            if (shouldReconnect) {
-              setTimeout(startBot, 3000);
-            }
-        }
+    console.log("❌ Déconnexion détectée:");
+    console.log(lastDisconnect?.error);
+
+    const statusCode = lastDisconnect?.error?.output?.statusCode;
+    const shouldReconnect = statusCode !== DisconnectReason.loggedOut;
+
+    console.log("➡️ Code de déconnexion :", statusCode);
+    console.log("➡️ Reconnexion :", shouldReconnect);
+
+    if (shouldReconnect) {
+        setTimeout(startBot, 3000);
+    }
+                }
     });
 
     sock.ev.on("creds.update", saveCreds);
