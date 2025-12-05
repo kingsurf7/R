@@ -102,7 +102,7 @@ app.get("/qr", (req, res) => {
             <script>
                 const qrImg = document.getElementById('qrImg');
                 const status = document.getElementById('status');
-                const ws = new WebSocket("ws://" + location.host);
+                const ws = new WebSocket("wss://" + location.host);
 
                 ws.onmessage = (event) => {
                     const data = JSON.parse(event.data);
